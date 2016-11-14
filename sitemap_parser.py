@@ -30,7 +30,7 @@ def fetchsite(url):
     return soup
 
 def main(argv):
-	'''Parse an xml sitemap and return a csv with percent encoded URLs'''
+    '''Parse an xml sitemap and return a csv with percent encoded URLs'''
 
     soup = fetchsite(argv[0])
     urls = soup.findAll('url')
@@ -53,6 +53,6 @@ def main(argv):
 
 if __name__ == "__main__":
     try:
-    	main(sys.argv[1:])
+        main(sys.argv[1:])
     except Exception as e:
-    	raise SystemExit(e)
+        raise SystemExit(e)
