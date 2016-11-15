@@ -1,0 +1,59 @@
+{% extends "navbar.html" %}
+{% block container %}
+
+<div class="container">
+<div class="panel panel-default">
+  <div class="panel-heading"><h1 style="margin:0 auto; vertical-align:center;" align="center">Client Sitemaps for Baidu</h1></div>
+  <table class="table table-reflow"> 
+    <thead> 
+      <tr>
+        <th>#</th>
+        <th>Client</th>
+        <th>Sitemap Location</th>
+        <th>Date Created</th>
+        <th>Configuration</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+  <tbody>
+    {% for client in output %}
+    <tr>
+      <th scope="row">{{loop.index}}</th>
+      <td><a href="#">{{ client["client"] }}</a></td>
+      <td>{{ client["sitemap"] }}</td>
+      <td>{{ client["date_created"] }}</td> 
+      <td style="vertical-align:center" align="center">
+        <form method=post action="#">
+        <button type="submit" class="btn btn-info">
+          <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+        </button>
+        </form>
+      </td>
+      <td style="vertical-align:center" align="center">
+        <form method=post action="{{ url_for("modifyClient", clientName= client["client"], mod="delete") }}">
+        <button type="submit" class="btn btn-danger" align="center">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+        </form>
+      </td>
+    {% endfor %}
+    </tr>
+  </tbody>
+  </table>
+</div>
+<br>
+<br>
+<br>
+<div style="margin:0 auto; vertical-align:center;" align="center" class="row">
+  <div class="col-md-2 col-md-offset-5">
+    <a href="{{ url_for("newClient") }}">
+      <button type="button" class="btn btn-primary btn-lg">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Add New Client
+      </button>
+    </a>
+  </div>
+</div>
+</div>
+
+{% endblock %}
