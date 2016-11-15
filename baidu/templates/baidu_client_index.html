@@ -23,8 +23,8 @@
       <td>{{ client["sitemap"] }}</td>
       <td>{{ client["date_created"] }}</td> 
       <td style="vertical-align:center" align="center">
-        <form method=post action="#">
-        <button type="submit" class="btn btn-info">
+        <form method=post action="{{ url_for("push", mod="edit") }}">
+        <button type="submit" class="btn btn-info" align="center">
           <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
         </button>
         </form>
