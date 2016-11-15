@@ -4,7 +4,28 @@ This project is an attempt to push URLs to Baidu for indexing per the instructio
 
 ## Installation
 
-TODO: Describe the installation process
+    # Open a terminal and clone this repo
+    $ git clone repo_location
+
+    # Create virtual environment (example with Anaconda python)
+    $ Conda create -n env_name_here python=3.5 -y
+
+    # Activate environment
+    $ source activate env_name_here
+
+    # Install requirements
+    $ cd path/to/project/directory
+    $ pip install -r requirements.txt
+
+## Running Program
+
+    # open a terminal in the project folder & activate environment
+    $ source activate env_name_here
+
+    # Start Program
+    $ python manage.py
+
+    # Open a browser and go to 127.0.0.1:5000
 
 ## How it Works
 
