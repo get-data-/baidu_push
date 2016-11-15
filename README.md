@@ -1,6 +1,6 @@
 # Baidu Push
 
-This project is an attempt to push URLs to Baidu for indexing per the instructions in their webmaster tools.
+This project is an attempt to push URLs to Baidu for indexing per the instructions in their webmaster tools. A Flask application is used so that users can input a sitemap which is then parsed for URLs and submitted to Baidu via a PUSH request. 
 
 ## Installation
 
