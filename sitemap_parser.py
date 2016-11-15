@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-File output by Eric Watson (https://github.com/Edubya77)
 Authors: Kevin Tarvin | Eric Watson
 """
 
