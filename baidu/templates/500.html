@@ -1,0 +1,29 @@
+{% extends "navbar.html" %}
+{% block container %}
+
+<br>
+
+<h1 style="margin:0 auto; vertical-align:center;" align="center">Something Broke</h1>
+
+<br>
+
+<div class="container" align="center">
+  <a href="/">
+  <img src="{{url_for('static', filename='img/error.jpg') }}" alt="">
+  </a>
+</div>
+
+<br>
+
+<div style="margin:0 auto; vertical-align:center;" align="center" class="row">
+    <div class="col-md-2 col-md-offset-5">
+      <a href="#">
+      <button type="button" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+      Go Back
+      </button>
+      </a>
+    </div>
+</div>
+
+{% endblock %}

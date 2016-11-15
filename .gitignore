@@ -1,2 +1,6 @@
 *.csv
 *.csv
+*.log
+*.pyc
+*.jpg
+*.png
