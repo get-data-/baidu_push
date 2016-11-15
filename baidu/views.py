@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import datetime
 from baidu import app
-from flask import render_template, jsonify, request, session, redirect, url_for, abort
+import json
+from flask import render_template, jsonify, request, session, redirect, url_for, abort, Response
 from flask.ext.pymongo import PyMongo
 from baidu.compute import nameParser
-from baidu.models import SitemapForm
+from baidu.models import SitemapForm, PushForm
 
 mongo = PyMongo(app)
 
@@ -56,6 +57,34 @@ def modifyClient(clientName, mod):
             pass
         return redirect(url_for("baiduIndex"))
     elif request.method == 'POST' and mod== "edit":
+        return render_template("push.html")
+    else:
+        return redirect(url_for("baiduIndex"))
+        
+@app.route("/baidu/clients/action/push/", methods=["GET", "POST"])
+def push():
+    form = PushForm(request.form)
+    return render_template("push.html", form=form)
+    if request.method == "POST" and form.validate():
+        token = form.token.data
+        client = form.client.data
+        number = form.number.data
+        try:
+            pass #make the main push function run here
+        except Exception as e:
+            pass
         return redirect(url_for("baiduIndex"))
     else:
         return redirect(url_for("baiduIndex"))
+
+@app.route("/historic_api_created")
+def historic_api_created():
+    #query DB to get his format for the URLs saved to the database over time
+    data = [{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 73}]}]
+    return Response(json.dumps(data), 201, mimetype="application/json")
+    
+@app.route("/historic_api_pushed")
+def historic_api_pushed():
+    #query DB to get his format for the URLs pushed to Baidu over time
+    data = [{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 56},{"x": "Mon", "y": 60}]}]
+    return Response(json.dumps(data), 201, mimetype="application/json")            
