@@ -11,6 +11,10 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
+'''
+usage
+$ python sitemap_parser.py "url_of_sitemap"
+'''
 
 def nameParser(url):
     '''Parse a URL and return the domain name as a string'''

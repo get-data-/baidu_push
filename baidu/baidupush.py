@@ -8,42 +8,45 @@ import sys
 import time
 import requests
 import pandas as pd
-from urllib.parse import urlparse
+import tldextract
 
 def readUrlList(csvfilename):
     df = pd.read_csv(csvfilename)
     return df
 
-def prepPush(url, client_token):
+def prepSiteUrl(url):
+    tld = tldextract.extract(url)
+    #grab subdomain, domain, and suffix
+    site = ".".join(tld[:3])
+    return site
+
+def prepPush(site, client_token):
     baiduUrl = 'http://data.zz.baidu.com/urls'
-    preppedUrl = '%s?site=%s&token=%s' % (baiduUrl, url, client_token)
-    return preppedUrl
+    baiduSubmissionUrl = '%s?site=%s&token=%s' % (baiduUrl, site, client_token)
+    return baiduSubmissionUrl
 
 def main(argv):
-    client_token = argv[1]
+    output = []
     df = readUrlList(argv[0])
     headers={'content-type':'text/plain'}
-    if len(df.index) > 2: #Daily limit of URLs pushed to Baidu is 2000
-        df2 = df.head(2)
+    site = prepSiteUrl(df['URLs'][0])
+    client_token = argv[1]
+    baiduSubmissionUrl = prepPush(site, client_token)
+    if len(df.index) > 2000: #Daily limit of URLs pushed to Baidu is 2000
+        df2 = df.head(2000)
         for i in df2.index:
             url = df2['URLs'][i]
-            urlToSubmit = prepPush(url, client_token)
-            print(urlToSubmit)
-            r = requests.post(urlToSubmit, headers = headers)
-            time.sleep(1)
-            print(r.text)
+            output.append(url)
         df2.to_csv("submitted.csv")
-        print(len(df2.index))
     else:
         for i in df.index:
             url = df['URLs'][i]
-            urlToSubmit = prepPush(url)
-            print(urlToSubmit)
-            r = requests.post(urlToSubmit, headers = headers)
-            time.sleep(1)
-            print(r.text)
+            output.append(url)
         df.to_csv("submitted.csv")
-        print(len(df.index))
+    urlList = "\n".join(output)
+    # print(baiduSubmissionUrl, '\n', headers, '\n', urlList)
+    r = requests.post(baiduSubmissionUrl, headers = headers, data = urlList)
+    print(r.text)
 
 if __name__ == "__main__":
     try:
