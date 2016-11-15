@@ -1,4 +1,4 @@
-# Baidu URL Pusher
+# Baidu Pusher
 
 This project is an attempt to push URLs to Baidu for indexing per the instructions in their webmaster tools.
 
