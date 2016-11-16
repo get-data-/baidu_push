@@ -44,7 +44,6 @@ def main(argv):
             output.append(url)
         df.to_csv("submitted.csv")
     urlList = "\n".join(output)
-    # print(baiduSubmissionUrl, '\n', headers, '\n', urlList)
     r = requests.post(baiduSubmissionUrl, headers = headers, data = urlList)
     print(r.text)
 
