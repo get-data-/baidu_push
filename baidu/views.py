@@ -54,28 +54,33 @@ def modifyClient(clientName, mod):
         try:
             clients.delete_one({"client":clientName})
         except Exception as e:
-            pass
-        return redirect(url_for("baiduIndex"))
+            app.logger.error("Page not found: %s", (request.path, e))
+            return redirect(url_for("baiduIndex"))
     elif request.method == 'POST' and mod== "edit":
-        return render_template("push.html")
+        return redirect(url_for("push", clientName = clientName))
     else:
         return redirect(url_for("baiduIndex"))
         
-@app.route("/baidu/clients/action/push/", methods=["GET", "POST"])
-def push():
+@app.route("/baidu/clients/<clientName>/action/push/", methods=["GET", "POST"])
+def push(clientName):
     form = PushForm(request.form)
-    return render_template("push.html", form=form)
     if request.method == "POST" and form.validate():
-        token = form.token.data
-        client = form.client.data
-        number = form.number.data
+        client_token = form.token.data
+        nPush = form.nPush.data
+
+        clients = mongo.db.baidu
+        urlList = []
+        for q in clients.find({"client":clientName}):
+            urlList.append(q["sitemap_url"])
+
         try:
-            pass #make the main push function run here
+            response = prepRequest(urlList, client_token, nPush)
+            return render_template("response.html", response=response)
         except Exception as e:
-            pass
-        return redirect(url_for("baiduIndex"))
+            app.logger.error("Page not found: %s", (request.path, e))
+            return redirect(url_for("baiduIndex"))
     else:
-        return redirect(url_for("baiduIndex"))
+        return render_template("push.html", form=form, clientName=clientName)
 
 @app.route("/historic_api_created")
 def historic_api_created():

@@ -1,38 +1,46 @@
 {% extends "navbar.html" %}
 {% block container %}
+
 <div class="page-header">
-<h1 align="center">Config and Submit</h1>
-</div>
-<br>
-<div style="margin:0 auto; vertical-align:center;" align="center">
-    <form method=post action="">
-    <div style="vertical-align:left">Please enter your Baidu token:</div> {{ form.token }}
-    </form>
-</div>
-<div style="margin:0 auto; vertical-align:center;" align="center">
-    <form method=post action="">
-    	<div style="vertical-align:left">Please confirm your Baidu client:</div> {{ form.client }}
-    </form>
-</div>
-<div style="margin:0 auto; vertical-align:center;" align="center">
-    <form method=post action="">
-    	<div style="vertical-align:left">How many URLs to submit?:</div> {{ form.number }}
-    </form>
-</div>
-<div style ="margin: 0 auto; vertical align: center;" align="center">
-<input type=submit value="Baidu Push!">
-</div>
-<br>
-<div class="page-header">
-<h1 align="center">History</h1>
+  <h1 align="center">
+  Config and Submit
+  </h1>
 </div>
 
+<br>
+
+<div style="margin:0 auto; vertical-align:center;" align="center">
+  <form method=post action="">
+    <div style="vertical-align:left">Please enter your Baidu token:</div> 
+    {{ form.token }}
+    <div style="margin:0 auto; vertical-align:center;" align="center">
+    <div style="vertical-align:left">How many URLs to submit?:</div>
+    {{ form.nPush }}
+    <div style ="margin: 0 auto; vertical align: center;" align="center">
+      <input type=submit value="Baidu Push!">
+    </div>
+  </form>
+</div>
+
+
+
+
+<br>
+<div class="page-header">
+  <h2 align="center">History</h1>
+</div>
+
+
+
 <div class="row">
-      
-    <div id="discretebarchartcreated" class="col-md-6">URLs Saved<svg style="height:400px;"></svg></div>
-      
-    <div id="discretebarchartpushed" class="col-md-6">URLs Pushed<svg style="height:400px;"></svg></div>
-    
+  <div id="discretebarchartcreated" class="col-md-6">
+    URLs Saved
+    <svg style="height:400px;"></svg>
+  </div>
+  <div id="discretebarchartpushed" class="col-md-6">
+    URLs Pushed
+    <svg style="height:400px;"></svg>
+  </div>
 </div>
 
     <script>
@@ -60,8 +68,8 @@
         });
         });
     </script>
-	
-	<script>
+  
+  <script>
         //data_discretebarchart=[{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 73}]}];
         //data_discretebarchart={{full_chart_values_day|safe}};
         
