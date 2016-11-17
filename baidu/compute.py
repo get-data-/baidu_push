@@ -8,13 +8,6 @@ from bs4 import BeautifulSoup
 from urllib.parse import quote_plus
 
 
-def fetchsite(url):
-    '''Creates a BeautifulSoup object from the input URL'''
-    
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'html5lib')
-    return soup
-
 def nameParser(url):
     '''Parse a URL and return the domain name'''
 
@@ -24,13 +17,20 @@ def nameParser(url):
     else:
         return str("Invalid Input")
 
+def fetchsite(url):
+    '''Creates a BeautifulSoup object from the input URL'''
+    
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html5lib')
+    return soup
+    
 def encodeUrl(url):
     '''Taking program data and make it safe for use as URL components by 
     quoting special characters and appropriately encoding non-ASCII text'''
 
     encodedUrl = quote_plus(url)
     return encodedUrl
-    
+
 def parseSitemapUrls(sitemapUrl):
     '''Parse an xml sitemap and return a csv with percent encoded URLs'''
 
@@ -46,13 +46,13 @@ def parseSitemapUrls(sitemapUrl):
         out.append(encoded_url)
     return out
 
-def makeDocument(parsedLoc):
-    '''Take a parsed sitemap URL and create a mongo document'''
+# def makeDocument(parsedLoc):
+#     '''Take a parsed sitemap URL and create a mongo document'''
 
-    client = nameParser(parsedLoc)
-    date = datetime.datetime.today().strftime("%Y-%m-%d")
-    doc = {"client":client, "date":date, "sitemap_url":parsedLoc}
-    return doc
+#     client = nameParser(parsedLoc)
+#     date = datetime.datetime.today().strftime("%Y-%m-%d")
+#     doc = {"client":client, "date":date, "sitemap_url":parsedLoc}
+#     return doc
 
 def prepSiteUrl(url):
     '''Create a string value of the website to append to Baudu link submission endpoint'''
@@ -75,20 +75,22 @@ def prepData(urlList, nPush):
     if nPush > 2000 or nPush <= 0:
         pass
     else:
-        if len(urlList) > nPush: #Daily limit of URLs pushed to Baidu is 2000
+        if len(urlList) < nPush: #Daily limit of URLs pushed to Baidu is 2000
+            data = "\n".join(urlList)
+            return data
+        else:
             maxLimit = nPush + 1
             newUrlList = urlList[:maxLimit]
             data = "\n".join(newUrlList)
-            return data
-        else:
-            data = "\n".join(urlList)
             return data
 
 def prepRequest(urlList, client_token, nPush):
     '''Makes a post request to Baidu to submit URLs to its crawler'''
     headers={'content-type':'text/plain'}
     site = prepSiteUrl(urlList[0])
+    print(site,"\n","\n")
     data = prepData(urlList, nPush)
+    print(data)
     baiduSubmissionUrl = prepPush(site, client_token)
     r = requests.post(baiduSubmissionUrl, headers = headers, data = data)
     return r.text

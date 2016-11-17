@@ -1,0 +1,69 @@
+    
+<br>
+<div class="page-header">
+  <h2 align="center">History</h2>
+</div>
+
+
+
+<div class="row">
+  <div id="discretebarchartcreated" class="col-md-6">
+    URLs Saved
+    <svg style="height:400px;"></svg>
+  </div>
+  <div id="discretebarchartpushed" class="col-md-6">
+    URLs Pushed
+    <svg style="height:400px;"></svg>
+  </div>
+</div>
+<script>
+    //data_discretebarchart=[{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 73}]}];
+    //data_discretebarchart={{full_chart_values_day|safe}};
+    
+    d3.json("/historic_api_created", function(dataSet){
+    console.log(dataSet)
+        nv.addGraph(function() {
+    var chart = nv.models.discreteBarChart();
+    chart.margin({top: 30, right: 60, bottom: 20, left: 60});
+    var datum = dataSet;
+                chart.yAxis
+            .tickFormat(d3.format(',.0f'));
+
+
+    
+        d3.select('#discretebarchartcreated svg')
+        .datum(datum)
+        .transition().duration(500)
+        .attr('width', 400)
+        .attr('height', 400)
+        .call(chart);
+
+    });
+    });
+</script>
+
+<script>
+    //data_discretebarchart=[{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 73}]}];
+    //data_discretebarchart={{full_chart_values_day|safe}};
+    
+    d3.json("/historic_api_pushed", function(dataSet){
+    console.log(dataSet)
+        nv.addGraph(function() {
+    var chart = nv.models.discreteBarChart();
+    chart.margin({top: 30, right: 60, bottom: 20, left: 60});
+    var datum = dataSet;
+                chart.yAxis
+            .tickFormat(d3.format(',.0f'));
+
+
+    
+        d3.select('#discretebarchartpushed svg')
+        .datum(datum)
+        .transition().duration(500)
+        .attr('width', 400)
+        .attr('height', 400)
+        .call(chart);
+
+    });
+    });
+</script>

@@ -9,90 +9,26 @@
 
 <br>
 
+
 <div style="margin:0 auto; vertical-align:center;" align="center">
-  <form method=post action="">
-    <div style="vertical-align:left">Please enter your Baidu token:</div> 
-    {{ form.token }}
-    <div style="margin:0 auto; vertical-align:center;" align="center">
-    <div style="vertical-align:left">How many URLs to submit?:</div>
-    {{ form.nPush }}
-    <div style ="margin: 0 auto; vertical align: center;" align="center">
-      <input type=submit value="Baidu Push!">
-    </div>
+  <form action = "" method = post>
+    <fieldset>
+      <legend>Contact Form</legend>
+      {{ form.hidden_tag }}
+      <div style = font-size:20px; font-weight:bold; margin-left:150px;>
+        {{ form.token.label }}<br>
+        {{ form.token }}
+        <br>
+        {{ form.nPush.label }}<br>
+        {{ form.nPush }}
+        <br>
+        <br>
+        {{ form.submit }}
+        <br>
+        <br>
+      </div>
+    </fieldset>
   </form>
 </div>
-
-
-
-
-<br>
-<div class="page-header">
-  <h2 align="center">History</h1>
-</div>
-
-
-
-<div class="row">
-  <div id="discretebarchartcreated" class="col-md-6">
-    URLs Saved
-    <svg style="height:400px;"></svg>
-  </div>
-  <div id="discretebarchartpushed" class="col-md-6">
-    URLs Pushed
-    <svg style="height:400px;"></svg>
-  </div>
-</div>
-
-    <script>
-        //data_discretebarchart=[{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 73}]}];
-        //data_discretebarchart={{full_chart_values_day|safe}};
-        
-        d3.json("/historic_api_created", function(dataSet){
-        console.log(dataSet)
-            nv.addGraph(function() {
-        var chart = nv.models.discreteBarChart();
-        chart.margin({top: 30, right: 60, bottom: 20, left: 60});
-        var datum = dataSet;
-                    chart.yAxis
-                .tickFormat(d3.format(',.0f'));
-    
-    
-        
-            d3.select('#discretebarchartcreated svg')
-            .datum(datum)
-            .transition().duration(500)
-            .attr('width', 400)
-            .attr('height', 400)
-            .call(chart);
-    
-        });
-        });
-    </script>
-  
-  <script>
-        //data_discretebarchart=[{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 73}]}];
-        //data_discretebarchart={{full_chart_values_day|safe}};
-        
-        d3.json("/historic_api_pushed", function(dataSet){
-        console.log(dataSet)
-            nv.addGraph(function() {
-        var chart = nv.models.discreteBarChart();
-        chart.margin({top: 30, right: 60, bottom: 20, left: 60});
-        var datum = dataSet;
-                    chart.yAxis
-                .tickFormat(d3.format(',.0f'));
-    
-    
-        
-            d3.select('#discretebarchartpushed svg')
-            .datum(datum)
-            .transition().duration(500)
-            .attr('width', 400)
-            .attr('height', 400)
-            .call(chart);
-    
-        });
-        });
-    </script>
 
 {% endblock %}

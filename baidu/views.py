@@ -4,7 +4,7 @@ from baidu import app
 import json
 from flask import render_template, jsonify, request, session, redirect, url_for, abort, Response
 from flask.ext.pymongo import PyMongo
-from baidu.compute import nameParser
+from baidu.compute import nameParser, fetchsite, parseSitemapUrls, prepRequest
 from baidu.models import SitemapForm, PushForm
 
 mongo = PyMongo(app)
@@ -53,6 +53,7 @@ def modifyClient(clientName, mod):
         clients = mongo.db.baidu
         try:
             clients.delete_one({"client":clientName})
+            return redirect(url_for("baiduIndex"))
         except Exception as e:
             app.logger.error("Page not found: %s", (request.path, e))
             return redirect(url_for("baiduIndex"))
@@ -69,18 +70,25 @@ def push(clientName):
         nPush = form.nPush.data
 
         clients = mongo.db.baidu
-        urlList = []
+        bResponse = mongo.db.baiduResponse
+        sitemapUrl = []
         for q in clients.find({"client":clientName}):
-            urlList.append(q["sitemap_url"])
-
+            sitemapUrl.append(q["sitemap"])
         try:
-            response = prepRequest(urlList, client_token, nPush)
+            # Almost there - need to fix URL encoding issue in compute
+            # urlList = parseSitemapUrls(sitemapUrl[0])
+            # response = prepRequest(urlList, client_token, nPush)
+            # print(response)
+            # bResponse.insert({"client":clientName, "response":response, "date":datetime.datetime.today().strftime("%Y-%m-%d")})
             return render_template("response.html", response=response)
         except Exception as e:
             app.logger.error("Page not found: %s", (request.path, e))
             return redirect(url_for("baiduIndex"))
     else:
-        return render_template("push.html", form=form, clientName=clientName)
+        if form.errors:
+            app.logger.error("Page not found: %s", (request.path, form.errors))
+        else:
+            return render_template("push.html", form=form, clientName=clientName)
 
 @app.route("/historic_api_created")
 def historic_api_created():
