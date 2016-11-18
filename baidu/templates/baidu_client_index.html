@@ -11,7 +11,7 @@
         <th>Client</th>
         <th>Sitemap Location</th>
         <th>Date Created</th>
-        <th>Configuration</th>
+        <th>Submit Links</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -19,13 +19,13 @@
     {% for client in output %}
     <tr>
       <th scope="row">{{loop.index}}</th>
-      <td><a href="#">{{ client["client"] }}</a></td>
+      <td><a href="{{ url_for("clientPage", clientName= client["client"]) }}">{{ client["client"] }}</a></td>
       <td>{{ client["sitemap"] }}</td>
       <td>{{ client["date_created"] }}</td> 
       <td style="vertical-align:center" align="center">
         <form method=post action="{{ url_for("modifyClient", clientName= client["client"], mod="edit") }}">
         <button type="submit" class="btn btn-info" align="center">
-          <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+          <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
         </button>
         </form>
       </td>

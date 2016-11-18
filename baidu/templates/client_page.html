@@ -1,0 +1,46 @@
+{% extends "navbar.html" %}
+{% block container %}
+
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h1 style="margin:0 auto; vertical-align:center;" align="center">{% filter title %}{{ client }}{% endfilter %}</h1>
+    </div>
+    <table class="table table-reflow"> 
+      <thead> 
+        <tr>
+          <th>#</th>
+          <th>Client</th>
+          <th>Date</th>
+          <th>Response</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in responseData %}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          <td>{{ r["client"] }}</td>
+          <td>{{ r["date"] }}</td> 
+          <td>{{ r["response"] }}</td>
+        {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<br>
+<br>
+<br>
+<div style="margin:0 auto; vertical-align:center;" align="center" class="row">
+  <div class="col-md-2 col-md-offset-5">
+    <a href="{{ url_for("baiduIndex") }}">
+      <button type="button" class="btn btn-primary btn-lg">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+      Go Back
+      </button>
+    </a>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+

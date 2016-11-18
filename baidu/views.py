@@ -75,11 +75,9 @@ def push(clientName):
         for q in clients.find({"client":clientName}):
             sitemapUrl.append(q["sitemap"])
         try:
-            # Almost there - need to fix URL encoding issue in compute
-            # urlList = parseSitemapUrls(sitemapUrl[0])
-            # response = prepRequest(urlList, client_token, nPush)
-            # print(response)
-            # bResponse.insert({"client":clientName, "response":response, "date":datetime.datetime.today().strftime("%Y-%m-%d")})
+            urlList = parseSitemapUrls(sitemapUrl[0])
+            response = prepRequest(urlList, client_token, nPush)
+            bResponse.insert({"client":clientName, "response":response, "date":datetime.datetime.today().strftime("%Y-%m-%d")})
             return render_template("response.html", response=response)
         except Exception as e:
             app.logger.error("Page not found: %s", (request.path, e))
@@ -90,14 +88,16 @@ def push(clientName):
         else:
             return render_template("push.html", form=form, clientName=clientName)
 
-@app.route("/historic_api_created")
-def historic_api_created():
-    #query DB to get his format for the URLs saved to the database over time
-    data = [{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 73}]}]
-    return Response(json.dumps(data), 201, mimetype="application/json")
-    
-@app.route("/historic_api_pushed")
-def historic_api_pushed():
-    #query DB to get his format for the URLs pushed to Baidu over time
-    data = [{"yAxis": "1", "key": "Serie 1", "values": [{"x": "Sun", "y": 56},{"x": "Mon", "y": 60}]}]
-    return Response(json.dumps(data), 201, mimetype="application/json")            
+@app.route('/clients/<clientName>/')
+def clientPage(clientName):
+    clients = mongo.db.baidu
+    c = clients.find_one({"client":clientName})
+    if c is not None:
+        bResponse = mongo.db.baiduResponse
+        responseData = []
+        responses = bResponse.find({"client":clientName})
+        for data in responses:
+            responseData.append({"client" : data["client"], "date" : data["date"], "response" : data["response"]})
+        return render_template('client_page.html', responseData=responseData, client=clientName)
+    else:
+        return abort(404)

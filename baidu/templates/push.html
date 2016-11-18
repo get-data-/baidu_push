@@ -13,7 +13,7 @@
 <div style="margin:0 auto; vertical-align:center;" align="center">
   <form action = "" method = post>
     <fieldset>
-      <legend>Contact Form</legend>
+      <legend>Push URLs to Baidu</legend>
       {{ form.hidden_tag }}
       <div style = font-size:20px; font-weight:bold; margin-left:150px;>
         {{ form.token.label }}<br>
@@ -23,12 +23,16 @@
         {{ form.nPush }}
         <br>
         <br>
-        {{ form.submit }}
-        <br>
-        <br>
+        <!-- Button (Double) -->
+        <div style="margin:0 auto; vertical-align:center;" align="center">
+          <label></label>
+          <div>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-export" aria-hidden="true"></span>Submit Links</button>
+            <a href="{{ url_for("baiduIndex") }}">
+            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button></a>
+          </div>
       </div>
     </fieldset>
   </form>
-</div>
 
 {% endblock %}

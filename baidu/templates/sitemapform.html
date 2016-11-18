@@ -3,21 +3,31 @@
 
 <br>
 <br>
-<br>
-<br>
-<h1 align="center">Sitemap</h1>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
 <div style="margin:0 auto; vertical-align:center;" align="center">
-    <form method=post action="">
-    Please enter a valid xml sitemap: {{ form.sitemapUrl }}
-    <input type=submit value="Fetch links">
-    </form>
+  <form class="form-horizontal" method=post action="">
+    <fieldset>
+      <!-- Form Name -->
+      <legend><h1 align="center">Submit New Client's Sitemap</h1></legend>
+      <br>
+      <!-- Text input-->
+      <div class="form-group">
+        <label>{{ form.sitemapUrl.label }}</label>  
+        <div>
+        {{ form.sitemapUrl }}
+        <span class="help-block">Please input a Sitemap</span>  
+        </div>
+      </div>
+      <!-- Button (Double) -->
+      <div style="margin:0 auto; vertical-align:center;" align="center">
+        <label></label>
+        <div style="margin:0 auto; vertical-align:center;" align="center">
+          <button type="submit" id="button1id" name="button1id" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Create New Client</button>
+          <a href="{{ url_for("baiduIndex") }}">
+          <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button></a>
+        </div>
+      </div>
+    </fieldset>
+  </form>
 </div>
 
 {% endblock %}

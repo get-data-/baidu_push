@@ -28,7 +28,7 @@ def encodeUrl(url):
     '''Taking program data and make it safe for use as URL components by 
     quoting special characters and appropriately encoding non-ASCII text'''
 
-    encodedUrl = quote_plus(url)
+    encodedUrl = quote_plus(url, safe=':/')
     return encodedUrl
 
 def parseSitemapUrls(sitemapUrl):
@@ -37,7 +37,6 @@ def parseSitemapUrls(sitemapUrl):
     soup = fetchsite(sitemapUrl)
     urls = soup.findAll('url')
     if not urls:
-        #raise SystemExit("No Urls in Sitemap Input")
         pass
     out = []
     for url in urls:
@@ -45,14 +44,6 @@ def parseSitemapUrls(sitemapUrl):
         encoded_url = encodeUrl(loc)
         out.append(encoded_url)
     return out
-
-# def makeDocument(parsedLoc):
-#     '''Take a parsed sitemap URL and create a mongo document'''
-
-#     client = nameParser(parsedLoc)
-#     date = datetime.datetime.today().strftime("%Y-%m-%d")
-#     doc = {"client":client, "date":date, "sitemap_url":parsedLoc}
-#     return doc
 
 def prepSiteUrl(url):
     '''Create a string value of the website to append to Baudu link submission endpoint'''
