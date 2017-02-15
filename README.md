@@ -51,7 +51,7 @@ TODO: Write credits
 
 MIT License
 
-Copyright (c) 2016 Eric Watson & Kevin Tarvin
+Copyright (c) 2016 Eric Watson & [Kevin Tarvin](http://www.kevintarvin.com/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
